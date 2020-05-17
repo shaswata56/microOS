@@ -4,6 +4,7 @@ global kbd_handler
 global read_port
 global write_port
 global load_idt
+global outb
 
 extern kbd_main
 
@@ -25,5 +26,11 @@ load_idt:
 	ret
 
 kbd_handler:                 
-	call	kbd_main
+	call  kbd_main
 	iretd
+
+outb:
+  mov al, [esp + 8]
+  mov dx, [esp + 4]
+  out dx, al
+  ret

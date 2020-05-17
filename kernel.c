@@ -1,4 +1,5 @@
-#include "kbd_map.h"
+#include "vga.h"
+#include "kbd.h"
 
 void kernel(void)
 {
