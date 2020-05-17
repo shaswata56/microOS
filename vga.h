@@ -1,6 +1,13 @@
 #ifndef INCLUDE_VGA_H
 #define INCLUDE_VGA_H
 
+#define FB_COMMAND_PORT         0x3D4
+#define FB_DATA_PORT            0x3D5
+
+#define FB_HIGH_BYTE_COMMAND    14
+#define FB_LOW_BYTE_COMMAND     15
+
+
 enum vga_color {
 	COLOR_BLACK = 0,
 	COLOR_BLUE  = 1,
@@ -20,11 +27,16 @@ enum vga_color {
 	COLOR_WHITE	    = 15,
 };
 
+extern void outb(unsigned short port, unsigned short value);
+
 static unsigned short lfsr = 0xACE1u;
 unsigned short bit;
 
 static const unsigned int VGA_WIDTH = 80;
 static const unsigned int VGA_HEIGHT = 25;
+
+static unsigned short fb_cursor_x = 0, fb_cursor_y = 0;
+static unsigned int fb_current_loc = 0;
 
 unsigned int term_row;
 unsigned int term_column;
@@ -54,5 +66,9 @@ void term_putchar(char c);
 void term_writestring(const char* data);
 
 void write(const char* str);
+
+void move_cursor(unsigned short pos);
+
+void set_cursor(unsigned int x, unsigned int y);
 
 #endif

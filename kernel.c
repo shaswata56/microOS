@@ -10,5 +10,4 @@ void kernel(void)
 	idt_init();
 	kbd_init();
 
-	while(1);
 }

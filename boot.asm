@@ -10,12 +10,13 @@ global start
 extern kernel
 
 start:
+	cli
 	mov	esp, stack_space
 	call	kernel
-	cli
-dbuff:
-	jmp	dbuff
+
+forever:
 	hlt
+	jmp	forever
 
 section .bss
 resb 16384

@@ -64,6 +64,7 @@ void term_putentryat(char c, unsigned char color, unsigned int x, unsigned int y
 {
 	const unsigned int index = y * VGA_WIDTH + x;
 	term_buffer[index] = make_vgaentry(c, color);
+  //set_cursor(x + 1, y);
 }
 
 void term_putchar(char c)
@@ -72,6 +73,7 @@ void term_putchar(char c)
 	{
 		term_column = 0;
 		term_row++;
+    set_cursor(term_column, term_row);
 		return;
 	}
 	if(c == '\t')
@@ -87,6 +89,8 @@ void term_putchar(char c)
 			term_column = 4 - less;
 			term_row++;
 		}
+    set_cursor(term_column, term_row);
+    
 		return;
 	}
 	else
@@ -100,6 +104,7 @@ void term_putchar(char c)
 		if(++term_row == VGA_HEIGHT)
 			term_row = 0;
 	}
+  set_cursor(term_column, term_row);
 }
 
 void term_writestring(const char* data)
@@ -115,4 +120,20 @@ void term_writestring(const char* data)
 void write(const char* str)
 {
 	term_writestring(str);
+}
+
+void move_cursor(unsigned short pos)
+{
+    outb (FB_COMMAND_PORT, FB_HIGH_BYTE_COMMAND);
+    outb (FB_DATA_PORT,    ((pos >> 8) & 0x00FF));
+    outb (FB_COMMAND_PORT, FB_LOW_BYTE_COMMAND);
+    outb (FB_DATA_PORT,    pos & 0x00FF);
+}
+
+void set_cursor(unsigned int x, unsigned int y)
+{
+    move_cursor(y * VGA_WIDTH + x);
+    
+    fb_cursor_x = x;
+    fb_cursor_y = y;
 }
