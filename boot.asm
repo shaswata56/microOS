@@ -12,6 +12,9 @@ extern kernel
 start:
 	mov	esp, stack_space
 	call	kernel
+	cli
+dbuff:
+	jmp	dbuff
 	hlt
 
 section .bss
