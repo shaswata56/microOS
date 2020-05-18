@@ -1,4 +1,4 @@
-## microOS
+# microOS
 
 ![Screenplay](https://raw.githubusercontent.com/shaswata56/microOS/master/res/screenplay.gif)
 
